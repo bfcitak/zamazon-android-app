@@ -8,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.activities.ProductDetailsActivity;
 import com.tantuni.zamazon.models.Product;
 
 import java.util.ArrayList;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
@@ -31,7 +28,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.fragment_product_card, parent, false);
+        View view = inflater.inflate(R.layout.card_product, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }

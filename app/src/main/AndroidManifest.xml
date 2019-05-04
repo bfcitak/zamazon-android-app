@@ -42,7 +42,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tantuni.zamazon.activities.MainActivity" />
-
+        </activity>
+        <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:label="@string/title_change_password"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.MainActivity" />
         </activity>
     </application>
 

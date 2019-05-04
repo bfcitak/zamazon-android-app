@@ -6,8 +6,8 @@ public class Product {
     private String description;
     private String category;
     private String subCategory;
-    private User seller;
     private Double price;
+    private User seller;
     private Boolean active;
     private Integer imageId;
 
@@ -16,14 +16,14 @@ public class Product {
 
     }
 
-    public Product(String id, String header, String description, String category, String subCategory, User seller, Double price, Boolean active) {
+    public Product(String id, String header, String description, String category, String subCategory, Double price, User seller, Boolean active) {
         this.id = id;
         this.header = header;
         this.description = description;
         this.category = category;
         this.subCategory = subCategory;
-        this.seller = seller;
         this.price = price;
+        this.seller = seller;
         this.active = active;
     }
 
@@ -68,20 +68,20 @@ public class Product {
         this.subCategory = subCategory;
     }
 
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
     public Boolean getActive() {
@@ -100,18 +100,4 @@ public class Product {
         this.imageId = imageId;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", header='" + header + '\'' +
-                ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", subCategory='" + subCategory + '\'' +
-                ", seller=" + seller +
-                ", price=" + price +
-                ", active=" + active +
-                ", imageId=" + imageId +
-                '}';
-    }
 }

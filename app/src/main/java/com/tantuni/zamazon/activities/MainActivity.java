@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
                     toolbar.setTitle("Home");
                     fragment = new HomeFragment();
-                    loadFragment(fragment);         //loadFragment fonksiyonumuzu çağırıyoruz.
+                    loadFragment(fragment);
                     return true;
 
                 case R.id.navigation_categories:

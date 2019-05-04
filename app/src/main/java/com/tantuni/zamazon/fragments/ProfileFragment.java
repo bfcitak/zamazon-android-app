@@ -3,14 +3,22 @@ package com.tantuni.zamazon.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.adapters.ProfileMenuAdapter;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 import com.tantuni.zamazon.models.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +33,10 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    TextView textViewId, textViewEmail, textViewFirstName, textViewLastName, textViewIsActive, textViewRoles;
+    TextView textViewWelcomeMessage;
+    RecyclerView recyclerViewProfileMenu;
+    ProfileMenuAdapter profileMenuAdapter;
+    ArrayList<String> profileMenuItems = new ArrayList<>(Arrays.asList("Change Password", "Orders", "Saved Addresses", "Saved Credit Cards", "Logout"));
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -37,14 +48,6 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -69,32 +72,15 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        textViewId = (TextView) view.findViewById(R.id.textViewId);
-        textViewEmail = (TextView) view.findViewById(R.id.textViewEmail);
-        textViewFirstName = (TextView) view.findViewById(R.id.textViewFirstName);
-        textViewLastName = (TextView) view.findViewById(R.id.textViewLastName);
-        textViewIsActive = (TextView) view.findViewById(R.id.textViewIsActive);
-        textViewRoles = (TextView) view.findViewById(R.id.textViewRoles);
+        recyclerViewProfileMenu = (RecyclerView) view.findViewById(R.id.recyclerViewProfileMenu);
+        setupRecycler();
+        textViewWelcomeMessage = (TextView) view.findViewById(R.id.textViewWelcomeMessage);
 
         //getting the current user
         User user = SharedPrefManager.getInstance(getContext()).getUser();
 
         //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getId()));
-        textViewEmail.setText(user.getEmail());
-        textViewFirstName.setText(user.getFirstName());
-        textViewLastName.setText(user.getLastName());
-        textViewIsActive.setText(user.getActive().toString());
-        textViewRoles.setText("ROLE");
-
-        //when the user presses logout button
-        //calling the logout method
-        view.findViewById(R.id.buttonLogout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPrefManager.getInstance(getContext()).logout();
-            }
-        });
+        textViewWelcomeMessage.setText(getString(R.string.welcome_message, user.getFirstName(), user.getLastName(), user.getRoles().iterator().next()));
 
         // Inflate the layout for this fragment
         return view;
@@ -114,19 +100,16 @@ public class ProfileFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setupRecycler() {
+        profileMenuAdapter = new ProfileMenuAdapter(this.getContext(), profileMenuItems);
+        recyclerViewProfileMenu.setAdapter(profileMenuAdapter);
+        recyclerViewProfileMenu.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerViewProfileMenu.addItemDecoration(new DividerItemDecoration(recyclerViewProfileMenu.getContext(), DividerItemDecoration.VERTICAL));
     }
 
 }
