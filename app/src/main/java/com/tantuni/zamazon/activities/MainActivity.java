@@ -13,8 +13,10 @@ import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.fragments.CartFragment;
 import com.tantuni.zamazon.fragments.CategoriesFragment;
 import com.tantuni.zamazon.fragments.HomeFragment;
+import com.tantuni.zamazon.fragments.LoginOrSignUpFragment;
 import com.tantuni.zamazon.fragments.ProfileFragment;
 import com.tantuni.zamazon.fragments.WishListFragment;
+import com.tantuni.zamazon.networks.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,10 +72,14 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.navigation_profile:
-
                     toolbar.setTitle("Profile");
-                    fragment = new ProfileFragment();
-                    loadFragment(fragment);
+                    if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+                        fragment = new ProfileFragment();
+                        loadFragment(fragment);
+                    } else {
+                        fragment = new LoginOrSignUpFragment();
+                        loadFragment(fragment);
+                    }
                     return true;
             }
             return false;

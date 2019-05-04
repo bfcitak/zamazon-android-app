@@ -1,4 +1,4 @@
-package com.tantuni.zamazon.models;
+package com.tantuni.zamazon.networks;
 
 import android.content.Context;
 

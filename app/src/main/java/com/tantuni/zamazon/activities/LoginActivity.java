@@ -2,7 +2,6 @@ package com.tantuni.zamazon.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,10 +16,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.tantuni.zamazon.R;
-import com.tantuni.zamazon.models.SharedPrefManager;
-import com.tantuni.zamazon.models.URL;
+import com.tantuni.zamazon.networks.SharedPrefManager;
+import com.tantuni.zamazon.networks.URL;
 import com.tantuni.zamazon.models.User;
-import com.tantuni.zamazon.models.VolleySingleton;
+import com.tantuni.zamazon.networks.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,24 +32,19 @@ import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
-    ProgressBar progressBar;
+    ProgressBar progressBarLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBarLogin = (ProgressBar) findViewById(R.id.progressBarLogin);
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
@@ -108,8 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressBar.setVisibility(View.GONE);
-
+                        progressBarLogin.setVisibility(View.VISIBLE);
                         try {
                             //if no error in response
                             if (!false) { //response.getBoolean("error")
@@ -142,7 +135,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //starting the profile activity
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                progressBarLogin.setVisibility(View.GONE);
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("Invalid email or password!"), Toast.LENGTH_SHORT).show();
                             }

@@ -1,19 +1,16 @@
 package com.tantuni.zamazon.fragments;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.tantuni.zamazon.R;
-import com.tantuni.zamazon.activities.LoginActivity;
-import com.tantuni.zamazon.activities.MainActivity;
-import com.tantuni.zamazon.activities.SignUpActivity;
+import com.tantuni.zamazon.networks.SharedPrefManager;
+import com.tantuni.zamazon.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +25,7 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    TextView textViewId, textViewEmail, textViewFirstName, textViewLastName, textViewIsActive, textViewRoles;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -69,24 +67,32 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile,
-                container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        Button toLoginButton = (Button) view.findViewById(R.id.toLoginButton);
-        toLoginButton.setOnClickListener(new View.OnClickListener() {
+        textViewId = (TextView) view.findViewById(R.id.textViewId);
+        textViewEmail = (TextView) view.findViewById(R.id.textViewEmail);
+        textViewFirstName = (TextView) view.findViewById(R.id.textViewFirstName);
+        textViewLastName = (TextView) view.findViewById(R.id.textViewLastName);
+        textViewIsActive = (TextView) view.findViewById(R.id.textViewIsActive);
+        textViewRoles = (TextView) view.findViewById(R.id.textViewRoles);
+
+        //getting the current user
+        User user = SharedPrefManager.getInstance(getContext()).getUser();
+
+        //setting the values to the textviews
+        textViewId.setText(String.valueOf(user.getId()));
+        textViewEmail.setText(user.getEmail());
+        textViewFirstName.setText(user.getFirstName());
+        textViewLastName.setText(user.getLastName());
+        textViewIsActive.setText(user.getActive().toString());
+        textViewRoles.setText("ROLE");
+
+        //when the user presses logout button
+        //calling the logout method
+        view.findViewById(R.id.buttonLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button toSignUpButton = (Button) view.findViewById(R.id.toSignUpButton);
-        toSignUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SignUpActivity.class);
-                startActivity(intent);
+                SharedPrefManager.getInstance(getContext()).logout();
             }
         });
 

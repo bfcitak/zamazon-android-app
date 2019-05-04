@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".activities.ProductDetailsActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBarProductDetails"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,34 +63,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Email"
+                        android:text="Header"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                     <TextView
-                        android:id="@+id/textViewEmail"
+                        android:id="@+id/textViewHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Email"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="First Name"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-                    <TextView
-                        android:id="@+id/textViewFirstName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="First Name"
+                        android:text="Header"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                 </TableRow>
@@ -84,15 +82,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Last Name"
+                        android:text="Description"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                     <TextView
-                        android:id="@+id/textViewLastName"
+                        android:id="@+id/textViewDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Last Name"
+                        android:text="Description"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                 </TableRow>
@@ -116,34 +114,27 @@
 
                 </TableRow>
 
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Roles"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-                    <TextView
-                        android:id="@+id/textViewRoles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Roles"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-                </TableRow>
-
 
             </TableLayout>
 
             <Button
-                android:id="@+id/buttonLogout"
+                android:id="@+id/buttonAddToWishList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Logout" />
+                android:layout_marginLeft="25px"
+                android:layout_marginRight="25px"
+                android:text="Add to Wish List" />
+
+            <Button
+                android:id="@+id/buttonAddToShoppingCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25px"
+                android:layout_marginRight="25px"
+                android:text="Add to Shopping Cart"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
+
     </RelativeLayout>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

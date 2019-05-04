@@ -1,10 +1,11 @@
-package com.tantuni.zamazon.models;
+package com.tantuni.zamazon.networks;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.tantuni.zamazon.activities.LoginActivity;
+import com.tantuni.zamazon.models.User;
 
 public class SharedPrefManager {
 

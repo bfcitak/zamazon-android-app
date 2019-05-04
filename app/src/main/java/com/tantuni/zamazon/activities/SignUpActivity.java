@@ -15,9 +15,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.tantuni.zamazon.R;
-import com.tantuni.zamazon.models.URL;
+import com.tantuni.zamazon.controllers.ProductController;
+import com.tantuni.zamazon.networks.URL;
 import com.tantuni.zamazon.models.User;
-import com.tantuni.zamazon.models.VolleySingleton;
+import com.tantuni.zamazon.networks.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,21 +32,15 @@ import java.util.Set;
 public class SignUpActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
-    ProgressBar progressBar;
+    ProgressBar progressBarSignUp;
+    ProductController productController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        //if the user is already logged in we will directly start the profile activity
-        /* if (SharedPrefManager.getInstance(this).isLoggedIn()) {
-            finish();
-            startActivity(new Intent(this, ProfileActivity.class));
-            return;
-        } */
+        progressBarSignUp = (ProgressBar) findViewById(R.id.progressBarSignUp);
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
@@ -120,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        progressBar.setVisibility(View.GONE);
+                        progressBarSignUp.setVisibility(View.VISIBLE);
 
                         try {
 
@@ -150,6 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 //starting the profile activity
                                 finish();
+                                progressBarSignUp.setVisibility(View.GONE);
                                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
