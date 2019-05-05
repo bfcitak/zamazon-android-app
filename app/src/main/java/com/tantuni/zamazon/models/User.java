@@ -7,19 +7,20 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private Boolean isActive;
-    private Set<String> roles;
+    private Boolean active;
+    //private Set<String> roles;
+    private Set<Role> roles;
 
     public User() {
 
     }
 
-    public User(String id, String email, String firstName, String lastName, Boolean isActive, Set<String> roles) {
+    public User(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.isActive = isActive;
+        this.active = active;
         this.roles = roles;
     }
 
@@ -56,18 +57,30 @@ public class User {
     }
 
     public Boolean getActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(Boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
-    public Set<String> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", active=" + active +
+                ", roles=" + roles +
+                '}';
     }
 }

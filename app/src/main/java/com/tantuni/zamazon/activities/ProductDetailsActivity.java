@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ProductDetailsActivity extends AppCompatActivity {
+
     TextView textViewProductHeader, textViewProductDescription, textViewProductCategory;
     RecyclerView recyclerViewProductDetails;
     ProgressBar progressBarProductDetails;
@@ -32,7 +33,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_details);
 
         progressBarProductDetails = (ProgressBar) findViewById(R.id.progressBarProductDetails);
-        progressBarProductDetails.setVisibility(View.VISIBLE);
 
         recyclerViewProductDetails = (RecyclerView) findViewById(R.id.recyclerViewProductDetails);
 

@@ -4,18 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tantuni.zamazon.activities.LoginActivity;
 import com.tantuni.zamazon.models.User;
 
 public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "zamazonsharedpref";
-    private static final String KEY_ID = "keyid";
-    private static final String KEY_EMAIL = "keyemail";
-    private static final String KEY_FIRSTNAME = "keyfirstname";
-    private static final String KEY_LASTNAME = "keylastname";
-    private static final String KEY_ACTIVE = "keyactive";
-    private static final String KEY_ROLES = "keyroles";
+    private static final String KEY_USER = "keyuser";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -32,36 +29,26 @@ public class SharedPrefManager {
     }
 
     //method to let the user login
-    //this method will store the user data in shared preferences
+    //this method will store the user id in shared preferences
     public void userLogin(User user) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_ID, user.getId());
-        editor.putString(KEY_EMAIL, user.getEmail());
-        editor.putString(KEY_FIRSTNAME, user.getFirstName());
-        editor.putString(KEY_LASTNAME, user.getLastName());
-        editor.putBoolean(KEY_ACTIVE, user.getActive());
-        editor.putStringSet(KEY_ROLES, user.getRoles());
+        editor.putString(KEY_USER, new Gson().toJson(user));
         editor.apply();
     }
 
     //this method will checker whether user is already logged in or not
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_ID, null) != null;
+        return sharedPreferences.getString(KEY_USER, null) != null;
     }
 
     //this method will give the logged in user
     public User getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new User(
-                sharedPreferences.getString(KEY_ID, null),
-                sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_FIRSTNAME, null),
-                sharedPreferences.getString(KEY_LASTNAME, null),
-                sharedPreferences.getBoolean(KEY_ACTIVE, false),
-                sharedPreferences.getStringSet(KEY_ROLES, null)
-        );
+        String userJson = sharedPreferences.getString(KEY_USER, null);
+        User user = new Gson().fromJson(userJson, new TypeToken<User>(){}.getType());
+        return user;
     }
 
     //this method will logout the user

@@ -69,7 +69,7 @@ public class LoginOrSignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_or_sign_up, container, false);
 
-        Button toLoginButton = (Button) view.findViewById(R.id.toLoginButton);
+        Button toLoginButton = (Button) view.findViewById(R.id.buttonLogin);
         toLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,7 @@ public class LoginOrSignUpFragment extends Fragment {
             }
         });
 
-        Button toSignUpButton = (Button) view.findViewById(R.id.toSignUpButton);
+        Button toSignUpButton = (Button) view.findViewById(R.id.buttonSignUp);
         toSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

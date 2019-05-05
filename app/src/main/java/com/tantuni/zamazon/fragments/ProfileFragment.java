@@ -6,13 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.UserController;
 import com.tantuni.zamazon.controllers.adapters.ProfileMenuAdapter;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 import com.tantuni.zamazon.models.User;
@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    UserController userController;
     TextView textViewWelcomeMessage;
     RecyclerView recyclerViewProfileMenu;
     ProfileMenuAdapter profileMenuAdapter;
@@ -76,15 +77,13 @@ public class ProfileFragment extends Fragment {
         setupRecycler();
         textViewWelcomeMessage = (TextView) view.findViewById(R.id.textViewWelcomeMessage);
 
-        //getting the current user
+        //getting the current user id
         User user = SharedPrefManager.getInstance(getContext()).getUser();
 
-        //setting the values to the textviews
         textViewWelcomeMessage.setText(getString(R.string.welcome_message, user.getFirstName(), user.getLastName(), user.getRoles().iterator().next()));
 
         // Inflate the layout for this fragment
         return view;
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

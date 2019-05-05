@@ -9,31 +9,19 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.tantuni.zamazon.R;
-import com.tantuni.zamazon.controllers.ProductController;
-import com.tantuni.zamazon.networks.URL;
+import com.tantuni.zamazon.controllers.UserController;
 import com.tantuni.zamazon.models.User;
-import com.tantuni.zamazon.networks.VolleySingleton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.tantuni.zamazon.networks.UserCallback;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class SignUpActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword, editTextFirstName, editTextLastName;
     ProgressBar progressBarSignUp;
-    ProductController productController;
+    UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,110 +55,73 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser() {
+    public void registerUser() {
+
+        progressBarSignUp.setVisibility(View.VISIBLE);
+
         final String email = editTextEmail.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
         final String firstName = editTextFirstName.getText().toString().trim();
         final String lastName = editTextLastName.getText().toString().trim();
 
+        if (validateSignUpData(email, password, firstName, lastName)) {
+            //if everything is fine
+            Map<String, String> signUpData = new HashMap<>();
+            signUpData.put("email", email);
+            signUpData.put("password", password);
+            signUpData.put("firstName", firstName);
+            signUpData.put("lastName", lastName);
+
+            userController.signUp(getApplicationContext(), signUpData, new UserCallback<User>() {
+                @Override
+                public void onSuccess(User object) {
+                    progressBarSignUp.setVisibility(View.GONE);
+                    // starting the login activity
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    progressBarSignUp.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+    }
+
+    public Boolean validateSignUpData(String email, String password, String firstName, String lastName) {
         // first we will do the validations
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Enter a valid email!");
             editTextEmail.requestFocus();
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(password)) {
             editTextPassword.setError("Enter a password!");
             editTextPassword.requestFocus();
-            return;
+            return false;
         }
 
         if (password.length() < 4) {
             editTextPassword.setError("At least 4 characters!");
             editTextPassword.requestFocus();
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(firstName)) {
             editTextFirstName.setError("Enter your first name!");
             editTextFirstName.requestFocus();
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(lastName)) {
             editTextLastName.setError("Enter your last name!");
             editTextLastName.requestFocus();
-            return;
+            return false;
         }
-
-        //if everything is fine
-        Map<String, String> data = new HashMap<>();
-        data.put("email", email);
-        data.put("password", password);
-        data.put("firstName", firstName);
-        data.put("lastName", lastName);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_REGISTER, new JSONObject(data),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressBarSignUp.setVisibility(View.VISIBLE);
-
-                        try {
-
-                            //if no error in response
-                            if (!false) {  //response.getBoolean("error")
-                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-
-                                //getting the user from the response
-                                JSONObject userJson = response.getJSONObject("user");
-                                JSONArray userRoles = userJson.getJSONArray("roles");
-
-                                Set<String> roles = new HashSet<>();
-                                for (int i = 0; i < userRoles.length(); i++) {
-                                    JSONObject roleJson = userRoles.getJSONObject(i);
-                                    roles.add(roleJson.getString("role"));
-                                }
-
-                                //creating a new user object
-                                User user = new User(
-                                        userJson.getString("id"),
-                                        userJson.getString("email"),
-                                        userJson.getString("firstName"),
-                                        userJson.getString("lastName"),
-                                        userJson.getBoolean("active"),
-                                        roles
-                                );
-
-                                //starting the profile activity
-                                finish();
-                                progressBarSignUp.setVisibility(View.GONE);
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                            } else {
-                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email);
-                params.put("password", password);
-                return params;
-            }
-        };
-
-        VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
-
+        return true;
     }
 }

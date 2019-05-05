@@ -33,10 +33,10 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ProgressBar progressBar;
-    ProductController productController;
-    RecyclerView recyclerView;
+    ProgressBar progressBarHome;
+    RecyclerView recyclerViewProducts;
     ProductAdapter productAdapter;
+    ProductController productController;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,21 +73,20 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBarLogin);
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recylerview);
+        progressBarHome = (ProgressBar) rootView.findViewById(R.id.progressBarHome);
+        recyclerViewProducts = (RecyclerView) rootView.findViewById(R.id.recyclerViewProducts);
 
 
         ArrayList<Product> products = new ArrayList<>();
         productController.getAllProducts(getContext(), new ProductCallback<ArrayList<Product>>() {
             @Override
             public void onSuccess(ArrayList<Product> products) {
-                progressBar.setVisibility(View.GONE);
+                progressBarHome.setVisibility(View.GONE);
                 setupRecycler();
             }
             @Override
             public void onError(Exception exception) {
-                progressBar.setVisibility(View.GONE);
+                progressBarHome.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "There is an error listing the products!", Toast.LENGTH_LONG).show();
             }
         });
@@ -127,8 +126,8 @@ public class HomeFragment extends Fragment {
     public void setupRecycler() {
         if (getActivity() != null) {
             productAdapter = new ProductAdapter(getContext(), ProductController.products);
-            recyclerView.setAdapter(productAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+            recyclerViewProducts.setAdapter(productAdapter);
+            recyclerViewProducts.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         }
     }
 }

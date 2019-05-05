@@ -100,4 +100,18 @@ public class Product {
         this.imageId = imageId;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", header='" + header + '\'' +
+                ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
+                ", subCategory='" + subCategory + '\'' +
+                ", price=" + price +
+                ", seller=" + seller +
+                ", active=" + active +
+                ", imageId=" + imageId +
+                '}';
+    }
 }

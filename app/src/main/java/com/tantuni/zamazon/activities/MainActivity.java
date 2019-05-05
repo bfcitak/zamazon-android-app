@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toolbar = getSupportActionBar();
-        toolbar.setTitle("Home");
         loadFragment(new HomeFragment());
 
         BottomNavigationView navigation = findViewById(R.id.navigationView);
