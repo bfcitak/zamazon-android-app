@@ -13,8 +13,12 @@ import android.widget.Toast;
 import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.ProductController;
 import com.tantuni.zamazon.controllers.adapters.ProductFeatureAdapter;
+import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.networks.ProductCallback;
+import com.tantuni.zamazon.networks.SharedPrefManager;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +29,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerViewProductDetails;
     ProgressBar progressBarProductDetails;
     ProductFeatureAdapter productFeatureAdapter;
+    ProductController productController;
     ArrayList<String> featureKeys, featureValues;
+    Product currentProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Product product) {
                 progressBarProductDetails.setVisibility(View.GONE);
+                currentProduct = product;
                 featureKeys = new ArrayList<>(Arrays.asList("Price", "Stock", "Rate"));
                 featureValues = new ArrayList<>(Arrays.asList(product.getPrice().toString() + " TL", "17", "3.8"));
                 setTitle(product.getHeader());
@@ -68,5 +75,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
         recyclerViewProductDetails.setAdapter(productFeatureAdapter);
         recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewProductDetails.addItemDecoration(new DividerItemDecoration(recyclerViewProductDetails.getContext(), DividerItemDecoration.VERTICAL));
+    }
+
+    public void addProductToCart(View view) {
+        productController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
+            @Override
+            public void onSuccess(Cart cart) {
+                Toast.makeText(getApplicationContext(), "Ürün sepetinize eklendi!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

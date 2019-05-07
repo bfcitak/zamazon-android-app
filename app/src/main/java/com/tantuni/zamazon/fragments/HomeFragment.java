@@ -68,16 +68,13 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         progressBarHome = (ProgressBar) rootView.findViewById(R.id.progressBarHome);
         recyclerViewProducts = (RecyclerView) rootView.findViewById(R.id.recyclerViewProducts);
 
-
-        ArrayList<Product> products = new ArrayList<>();
         productController.getAllProducts(getContext(), new ProductCallback<ArrayList<Product>>() {
             @Override
             public void onSuccess(ArrayList<Product> products) {

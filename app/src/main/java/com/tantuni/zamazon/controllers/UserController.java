@@ -37,10 +37,11 @@ public class UserController {
 
                                 //getting the user from the response
                                 JSONObject userJson = response.getJSONObject("user");
+                                String token = response.getString("token");
 
                                 User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
                                 //storing the user in shared preferences
-                                SharedPrefManager.getInstance(context).userLogin(user);
+                                SharedPrefManager.getInstance(context).userLogin(user, token);
                                 userCallback.onSuccess(user);
                             } else {
                                 Toast.makeText(context, "Invalid email or password!", Toast.LENGTH_SHORT).show();
@@ -112,7 +113,7 @@ public class UserController {
         VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void getUserById(Context context, String userId, final UserCallback<User> userCallback) {
+    public static void getUserById(final Context context, String userId, final UserCallback<User> userCallback) {
         JsonObjectRequest getUserByIdRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_USERS + "/" + userId, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -127,7 +128,14 @@ public class UserController {
                         userCallback.onError(error);
                     }
                 }
-        );
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + SharedPrefManager.getInstance(context).getToken());
+                return params;
+            }
+        };
         VolleySingleton.getInstance(context).addToRequestQueue(getUserByIdRequest);
     }
 

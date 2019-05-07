@@ -8,68 +8,65 @@ public class User {
     private String firstName;
     private String lastName;
     private Boolean active;
-    //private Set<String> roles;
     private Set<Role> roles;
+    private Cart cart;
 
     public User() {
 
     }
 
-    public User(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles) {
+    public User(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles, Cart cart) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.active = active;
         this.roles = roles;
+        this.cart = cart;
     }
 
+    // Getters and Setters
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
     public Boolean getActive() {
         return active;
     }
-
     public void setActive(Boolean active) {
         this.active = active;
     }
-
     public Set<Role> getRoles() {
         return roles;
     }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public Cart getCart() {
+        return cart;
+    }
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     @Override
@@ -81,6 +78,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", active=" + active +
                 ", roles=" + roles +
+                ", cart=" + cart +
                 '}';
     }
 }

@@ -13,6 +13,7 @@ public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "zamazonsharedpref";
     private static final String KEY_USER = "keyuser";
+    private static final String KEY_TOKEN = "keytoken";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -30,10 +31,11 @@ public class SharedPrefManager {
 
     //method to let the user login
     //this method will store the user id in shared preferences
-    public void userLogin(User user) {
+    public void userLogin(User user, String token) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_USER, new Gson().toJson(user));
+        editor.putString(KEY_TOKEN, token);
         editor.apply();
     }
 
@@ -49,6 +51,12 @@ public class SharedPrefManager {
         String userJson = sharedPreferences.getString(KEY_USER, null);
         User user = new Gson().fromJson(userJson, new TypeToken<User>(){}.getType());
         return user;
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(KEY_TOKEN, null);
+        return token;
     }
 
     //this method will logout the user

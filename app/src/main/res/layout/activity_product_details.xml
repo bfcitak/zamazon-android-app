@@ -111,6 +111,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="Add to shopping cart"
+                android:onClick="addProductToCart"
                 android:src="@drawable/ic_add_shopping_cart_black_24dp"
                 android:theme="@style/AppTheme.Button" />
 

@@ -4,11 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.ProductController;
+import com.tantuni.zamazon.controllers.UserController;
+import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
+import com.tantuni.zamazon.models.Product;
+import com.tantuni.zamazon.models.User;
+import com.tantuni.zamazon.networks.SharedPrefManager;
+import com.tantuni.zamazon.networks.UserCallback;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +37,11 @@ public class CartFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    ProgressBar progressBarCart;
+    RecyclerView recyclerViewCart;
+    ProductAdapter productAdapter;
+    UserController userController;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,10 +81,27 @@ public class CartFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cart, container, false);
+
+        recyclerViewCart = (RecyclerView) rootView.findViewById(R.id.recyclerViewCart);
+        progressBarCart = (ProgressBar) rootView.findViewById(R.id.progressBarCart);
+
+        userController.getUserById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new UserCallback<User>() {
+            @Override
+            public void onSuccess(User user) {
+                progressBarCart.setVisibility(View.GONE);
+                setupRecycler(user.getCart().getProducts());
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                progressBarCart.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,5 +130,13 @@ public class CartFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setupRecycler(Set<Product> products) {
+        if (getActivity() != null) {
+            productAdapter = new ProductAdapter(getContext(), new ArrayList<>(products));
+            recyclerViewCart.setAdapter(productAdapter);
+            recyclerViewCart.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        }
     }
 }
