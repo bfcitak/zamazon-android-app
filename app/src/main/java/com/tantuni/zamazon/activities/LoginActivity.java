@@ -68,20 +68,24 @@ public class LoginActivity extends AppCompatActivity {
             userController.login(getApplicationContext(), loginData, new UserCallback<User>() {
                 @Override
                 public void onSuccess(User user) {
-                    progressBarLogin.setVisibility(View.GONE);
-                    // starting the profile activity
                     finish();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    if (user.getRoles().iterator().next().getRole().equals("ADMIN")) {
+                        // admin activity acilacak.
+                        startActivity(new Intent(getApplicationContext(), ChangePasswordActivity.class));
+                    } else if (user.getRoles().iterator().next().getRole().equals("CUSTOMER")) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    } else if (user.getRoles().iterator().next().getRole().equals("SELLER")) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    progressBarLogin.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
                 }
             });
-
         }
+        progressBarLogin.setVisibility(View.GONE);
     }
 
     public Boolean validateLoginData(String username, String password) {

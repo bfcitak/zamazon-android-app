@@ -1,6 +1,7 @@
 package com.tantuni.zamazon.controllers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -10,17 +11,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tantuni.zamazon.models.Admin;
+import com.tantuni.zamazon.models.Customer;
+import com.tantuni.zamazon.models.Role;
+import com.tantuni.zamazon.models.Seller;
 import com.tantuni.zamazon.models.User;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 import com.tantuni.zamazon.networks.URL;
 import com.tantuni.zamazon.networks.UserCallback;
 import com.tantuni.zamazon.networks.VolleySingleton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class UserController {
 
@@ -37,12 +44,30 @@ public class UserController {
 
                                 //getting the user from the response
                                 JSONObject userJson = response.getJSONObject("user");
+                                JSONArray rolesJson = userJson.getJSONArray("roles");
                                 String token = response.getString("token");
+                                Set<Role> roles = new Gson().fromJson(rolesJson.toString(), new TypeToken<Set<Role>>(){}.getType());
+                                Role role = roles.iterator().next();
 
-                                User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
-                                //storing the user in shared preferences
-                                SharedPrefManager.getInstance(context).userLogin(user, token);
-                                userCallback.onSuccess(user);
+                                if (role.getRole().equals("CUSTOMER")) {
+                                    Customer user = new Gson().fromJson(userJson.toString(), new TypeToken<Customer>(){}.getType());
+                                    //storing the user in shared preferences
+                                    SharedPrefManager.getInstance(context).userLogin(user, token);
+                                    userCallback.onSuccess(user);
+                                } else if (role.getRole().equals("SELLER")) {
+                                    Seller user = new Gson().fromJson(userJson.toString(), new TypeToken<Seller>(){}.getType());
+                                    //storing the user in shared preferences
+                                    SharedPrefManager.getInstance(context).userLogin(user, token);
+                                    userCallback.onSuccess(user);
+                                } else if (role.getRole().equals("ADMIN")) {
+                                    Admin user = new Gson().fromJson(userJson.toString(), new TypeToken<Admin>(){}.getType());
+                                    //storing the user in shared preferences
+                                    SharedPrefManager.getInstance(context).userLogin(user, token);
+                                    userCallback.onSuccess(user);
+                                } else {
+                                    Toast.makeText(context, "Authorization Error!", Toast.LENGTH_SHORT).show();
+                                }
+
                             } else {
                                 Toast.makeText(context, "Invalid email or password!", Toast.LENGTH_SHORT).show();
                             }

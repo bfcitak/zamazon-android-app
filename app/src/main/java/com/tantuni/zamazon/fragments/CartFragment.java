@@ -16,6 +16,7 @@ import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.ProductController;
 import com.tantuni.zamazon.controllers.UserController;
 import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
+import com.tantuni.zamazon.models.Customer;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.models.User;
 import com.tantuni.zamazon.networks.SharedPrefManager;
@@ -92,7 +93,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onSuccess(User user) {
                 progressBarCart.setVisibility(View.GONE);
-                setupRecycler(user.getCart().getProducts());
+                //setupRecycler(user.getCart().getProducts());
             }
 
             @Override

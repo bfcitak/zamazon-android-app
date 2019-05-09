@@ -9,20 +9,19 @@ public class User {
     private String lastName;
     private Boolean active;
     private Set<Role> roles;
-    private Cart cart;
 
+    // Constructors
     public User() {
 
     }
 
-    public User(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles, Cart cart) {
+    public User(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.active = active;
         this.roles = roles;
-        this.cart = cart;
     }
 
     // Getters and Setters
@@ -62,12 +61,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-    public Cart getCart() {
-        return cart;
-    }
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 
     @Override
     public String toString() {
@@ -78,7 +71,6 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", active=" + active +
                 ", roles=" + roles +
-                ", cart=" + cart +
                 '}';
     }
 }
