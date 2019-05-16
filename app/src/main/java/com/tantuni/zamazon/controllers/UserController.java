@@ -50,12 +50,18 @@ public class UserController {
                                     Customer user = new Gson().fromJson(userJson.toString(), new TypeToken<Customer>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user, response.getString("message"));
+                                    if (user.getActive())
+                                        userCallback.onSuccess(user, response.getString("message"));
+                                    else
+                                        userCallback.onError(new AuthFailureError("BAN"));
                                 } else if (role.getRole().equals("SELLER")) {
                                     Seller user = new Gson().fromJson(userJson.toString(), new TypeToken<Seller>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user, response.getString("message"));
+                                    if (user.getActive())
+                                        userCallback.onSuccess(user, response.getString("message"));
+                                    else
+                                        userCallback.onError(new AuthFailureError("BAN"));
                                 } else if (role.getRole().equals("ADMIN")) {
                                     Admin user = new Gson().fromJson(userJson.toString(), new TypeToken<Admin>(){}.getType());
                                     //storing the user in shared preferences

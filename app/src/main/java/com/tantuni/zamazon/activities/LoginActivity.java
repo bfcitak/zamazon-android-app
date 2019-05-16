@@ -1,5 +1,7 @@
 package com.tantuni.zamazon.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -91,11 +93,29 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onError(Exception exception) {
                     Log.d("NEDEN","NEDEN");
+                    buildDialog();
                     Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
                 }
             });
         }
         progressBarLogin.setVisibility(View.GONE);
+    }
+
+    public void buildDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder( this);
+
+        builder.setTitle("Error");
+
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editTextPassword.setText("");
+                editTextUsername.setText("");
+            }
+        });
+        builder.setMessage("You have banned!");
+        AlertDialog alert1 = builder.create();
+        alert1.show();
     }
 
     public Boolean validateLoginData(String username, String password) {
