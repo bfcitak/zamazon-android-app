@@ -2,8 +2,10 @@ package com.tantuni.zamazon.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -74,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             userController.signUp(getApplicationContext(), signUpData, new UserCallback<User>() {
                 @Override
-                public void onSuccess(User object) {
+                public void onSuccess(User user, String message) {
                     progressBarSignUp.setVisibility(View.GONE);
                     // starting the login activity
                     finish();
@@ -124,4 +126,16 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FragmentManager fm = getSupportFragmentManager();
+        Log.d("GEL","GEEEL");
+    }
+    public void onBackPressed(){
+        finish();
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+    }
+
 }

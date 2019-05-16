@@ -91,7 +91,7 @@ public class CartFragment extends Fragment {
 
         userController.getUserById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new UserCallback<User>() {
             @Override
-            public void onSuccess(User user) {
+            public void onSuccess(User user, String message) {
                 progressBarCart.setVisibility(View.GONE);
                 //setupRecycler(user.getCart().getProducts());
             }

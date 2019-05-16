@@ -1,6 +1,8 @@
 package com.tantuni.zamazon.controllers;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,7 +34,6 @@ import java.util.Set;
 public class UserController {
 
     public static void login(final Context context, final Map<String, String> loginData, final UserCallback<User> userCallback) {
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_LOGIN, new JSONObject(loginData),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -53,17 +54,17 @@ public class UserController {
                                     Customer user = new Gson().fromJson(userJson.toString(), new TypeToken<Customer>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user);
+                                    userCallback.onSuccess(user, "MESSAGE");
                                 } else if (role.getRole().equals("SELLER")) {
                                     Seller user = new Gson().fromJson(userJson.toString(), new TypeToken<Seller>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user);
+                                    userCallback.onSuccess(user, "MESSAGE");
                                 } else if (role.getRole().equals("ADMIN")) {
                                     Admin user = new Gson().fromJson(userJson.toString(), new TypeToken<Admin>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user);
+                                    userCallback.onSuccess(user, "MESSAGE");
                                 } else {
                                     Toast.makeText(context, "Authorization Error!", Toast.LENGTH_SHORT).show();
                                 }
@@ -111,7 +112,7 @@ public class UserController {
                                 //creating a new user object
                                 User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
 
-                                userCallback.onSuccess(user);
+                                userCallback.onSuccess(user, "MESSAGE");
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -144,7 +145,7 @@ public class UserController {
                     @Override
                     public void onResponse(JSONObject response) {
                         User user = new Gson().fromJson(response.toString(), new TypeToken<User>(){}.getType());
-                        userCallback.onSuccess(user);
+                        userCallback.onSuccess(user, "MESSAGE");
                     }
                 },
                 new Response.ErrorListener() {
@@ -162,6 +163,51 @@ public class UserController {
             }
         };
         VolleySingleton.getInstance(context).addToRequestQueue(getUserByIdRequest);
+    }
+
+    public static void changePassword(final Context context, User user, final Map<String, String> passwordData, final UserCallback<User> userCallback) {
+        JsonObjectRequest changePasswordRequest = new JsonObjectRequest(Request.Method.PUT, URL.URL_USERS + "/" + user.getId(), new JSONObject(passwordData),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //getting the user from the response
+                        try {
+                            String message = response.getString("message");
+                            JSONObject userJson = response.getJSONObject("user");
+                            if (!response.getBoolean("error")) {
+                                User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
+                                userCallback.onSuccess(user, message);
+                            } else {
+                                User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
+                                userCallback.onSuccess(user, message);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        userCallback.onError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + SharedPrefManager.getInstance(context).getToken());
+                return params;
+            }
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("oldPassword", passwordData.get("oldPassword"));
+                params.put("newPassword", passwordData.get("newPassword"));
+                params.put("newRePassword", passwordData.get("newRePassword"));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(changePasswordRequest);
     }
 
 }

@@ -1,12 +1,16 @@
 package com.tantuni.zamazon.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.tantuni.zamazon.R;
@@ -26,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SharedPrefManager.getInstance(getApplicationContext()).getUser()!=null&&SharedPrefManager.getInstance(getApplicationContext()).getUser().getRoles().iterator().next().getRole().equals("ADMIN")){
+            Intent i = new Intent(getApplicationContext(),AdminActivity.class);
+            finish();
+            startActivity(i);
+        }
         setContentView(R.layout.activity_main);
-
+        Log.d("MAIN","HADIII");
         toolbar = getSupportActionBar();
         loadFragment(new HomeFragment());
+
 
         BottomNavigationView navigation = findViewById(R.id.navigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -89,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.commit();
+    }
+
+    public void onBackPressed(){
+        finish();
     }
 
 }

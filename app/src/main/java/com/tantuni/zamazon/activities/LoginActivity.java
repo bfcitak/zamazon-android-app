@@ -2,8 +2,10 @@ package com.tantuni.zamazon.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -29,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         progressBarLogin = (ProgressBar) findViewById(R.id.progressBarLogin);
-
+        Log.d("EARTIK","EARTIK2");
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //open register screen
+                Log.d("EARTIK","EARTIK2");
                 finish();
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
             }
@@ -58,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     public void userLogin(final String username, String password) {
 
         progressBarLogin.setVisibility(View.VISIBLE);
-
+        Log.d("EARTIK","EARTIK");
         if (validateLoginData(username, password)) {
             // if everything is fine
             final Map<String, String> loginData = new HashMap<>();
@@ -67,20 +70,28 @@ public class LoginActivity extends AppCompatActivity {
 
             userController.login(getApplicationContext(), loginData, new UserCallback<User>() {
                 @Override
-                public void onSuccess(User user) {
-                    finish();
+                public void onSuccess(User user, String message) {
+                    Log.d("NEDEN1","NEDEN");
+                    Log.d("NEDEN2","NEDEN");
                     if (user.getRoles().iterator().next().getRole().equals("ADMIN")) {
                         // admin activity acilacak.
-                        startActivity(new Intent(getApplicationContext(), ChangePasswordActivity.class));
+                        Log.d("EEEE","LALALAL");
+                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                        finish();;
                     } else if (user.getRoles().iterator().next().getRole().equals("CUSTOMER")) {
+                        Log.d("EEEE1","LALALAL");
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                     } else if (user.getRoles().iterator().next().getRole().equals("SELLER")) {
+                        Log.d("EEEE2","LALALAL");
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
                     }
                 }
 
                 @Override
                 public void onError(Exception exception) {
+                    Log.d("NEDEN","NEDEN");
                     Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -109,5 +120,10 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+    public void onBackPressed(){
+        finish();
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -9,6 +9,7 @@
     <string name="title_profile">Profile</string>
     <string name="title_product_details">Product Details</string>
     <string name="title_change_password">Change Password</string>
+    <string name="title_add_product">Add Product</string>
 
 
     <string name="full_category">%1$s / %2$s</string>
