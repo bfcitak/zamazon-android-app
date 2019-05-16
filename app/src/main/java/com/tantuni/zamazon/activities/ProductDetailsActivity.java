@@ -20,8 +20,6 @@ import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -80,16 +78,20 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     public void addProductToCart(View view) {
-        customerController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
-            @Override
-            public void onSuccess(Cart cart, String message) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
+        if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+            customerController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
+                @Override
+                public void onSuccess(Cart cart, String message) {
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onError(Exception exception) {
-                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onError(Exception exception) {
+                    Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "You must be logged in!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

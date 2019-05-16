@@ -30,6 +30,9 @@ public class Category {
 
     @Override
     public String toString() {
-        return this.getName();
+        return "{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

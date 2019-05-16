@@ -90,7 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     public Boolean validateSignUpData(String email, String password, String firstName, String lastName) {
@@ -126,12 +125,14 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         FragmentManager fm = getSupportFragmentManager();
         Log.d("GEL","GEEEL");
     }
+
     public void onBackPressed(){
         finish();
         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);

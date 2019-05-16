@@ -9,10 +9,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tantuni.zamazon.models.Product;
+import com.tantuni.zamazon.models.Category;
+import com.tantuni.zamazon.models.SubCategory;
+import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.URL;
 import com.tantuni.zamazon.networks.VolleySingleton;
-import com.tantuni.zamazon.networks.ProductCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,22 +21,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class ProductController {
-    public static ArrayList<Product> products = new ArrayList<>();
-    public static Product product;
+public class CategoryController {
+    public static ArrayList<Category> categories;
+    public static ArrayList<SubCategory> subCategories;
+    public static Category category;
 
-    public static void getAllProducts(Context context, final ProductCallback<ArrayList<Product>> productCallback) {
+    public static void getAllCategories(Context context, final ProductCallback<ArrayList<Category>> productCallback) {
 
-        JsonObjectRequest getAllProductsRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_PRODUCTS, null,
+        JsonObjectRequest getAllCategoriesRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_CATEGORIES, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray productsJson = response.getJSONArray("products");
-                            products = new Gson().fromJson(productsJson.toString(), new TypeToken<List<Product>>(){}.getType());
-                            productCallback.onSuccess(products, response.getString("message"));
+                            JSONArray categoriesJson = response.getJSONArray("categories");
+                            categories = new Gson().fromJson(categoriesJson.toString(), new TypeToken<List<Category>>(){}.getType());
+                            productCallback.onSuccess(categories, response.getString("message"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -48,19 +49,19 @@ public class ProductController {
                     }
                 }
         );
-        VolleySingleton.getInstance(context).addToRequestQueue(getAllProductsRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(getAllCategoriesRequest);
     }
 
-    public static void getProductById(final Context context, String productId, final ProductCallback<Product> productCallback) {
-        JsonObjectRequest getProductByIdRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_PRODUCTS + "/" + productId, null,
+    public static void getCategoryById(final Context context, String categoryId, final ProductCallback<Category> productCallback) {
+        JsonObjectRequest getCategoryByIdRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_CATEGORIES + "/" + categoryId, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if (!response.getBoolean("error")) {
-                                JSONObject productJson = response.getJSONObject("product");
-                                product = new Gson().fromJson(productJson.toString(), new TypeToken<Product>(){}.getType());
-                                productCallback.onSuccess(product, response.getString("message"));
+                                JSONObject categoryJson = response.getJSONObject("category");
+                                category = new Gson().fromJson(categoryJson.toString(), new TypeToken<Category>(){}.getType());
+                                productCallback.onSuccess(category, response.getString("message"));
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_LONG).show();
                             }
@@ -76,20 +77,19 @@ public class ProductController {
                     }
                 }
         );
-        VolleySingleton.getInstance(context).addToRequestQueue(getProductByIdRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(getCategoryByIdRequest);
     }
 
-    public static void addProduct(final Context context, Map<String, Object> productData, final ProductCallback<Product> productCallback) {
-        JsonObjectRequest addProductRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_PRODUCTS, new JSONObject(productData),
+    public static void getSubCategoriesOfCategory(final Context context, String categoryId, final ProductCallback<ArrayList<SubCategory>> productCallback) {
+        JsonObjectRequest getSubCategoriesOfCategoryRequest = new JsonObjectRequest(Request.Method.GET, URL.URL_CATEGORIES + "/" + categoryId + "/subCategories", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if (!response.getBoolean("error")) {
-                                JSONObject productJson = response.getJSONObject("product");
-                                product = new Gson().fromJson(productJson.toString(), new TypeToken<Product>(){}.getType());
-                                productCallback.onSuccess(product, response.getString("message"));
-
+                                JSONArray subCategoriesJson = response.getJSONArray("subCategories");
+                                subCategories = new Gson().fromJson(subCategoriesJson.toString(), new TypeToken<ArrayList<SubCategory>>(){}.getType());
+                                productCallback.onSuccess(subCategories, response.getString("message"));
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_LONG).show();
                             }
@@ -105,7 +105,6 @@ public class ProductController {
                     }
                 }
         );
-        VolleySingleton.getInstance(context).addToRequestQueue(addProductRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(getSubCategoriesOfCategoryRequest);
     }
-
 }

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AdminActivity"></activity>
+        <activity android:name=".activities.SellerActivity" />
+        <activity android:name=".activities.AdminActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,6 +52,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tantuni.zamazon.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddProductActivity"
+            android:label="@string/title_add_product">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.SellerActivity" />
         </activity>
     </application>
 

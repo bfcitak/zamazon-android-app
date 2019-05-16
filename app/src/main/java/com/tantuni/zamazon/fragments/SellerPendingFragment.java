@@ -13,12 +13,12 @@ import com.tantuni.zamazon.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AdminProfileFragment.OnFragmentInteractionListener} interface
+ * {@link SellerPendingFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AdminProfileFragment#newInstance} factory method to
+ * Use the {@link SellerPendingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AdminProfileFragment extends Fragment {
+public class SellerPendingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class AdminProfileFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public AdminProfileFragment() {
+    public SellerPendingFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class AdminProfileFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminProfileFragment.
+     * @return A new instance of fragment SellerPendingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AdminProfileFragment newInstance(String param1, String param2) {
-        AdminProfileFragment fragment = new AdminProfileFragment();
+    public static SellerPendingFragment newInstance(String param1, String param2) {
+        SellerPendingFragment fragment = new SellerPendingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,24 +65,13 @@ public class AdminProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_profile, container, false);
+        return inflater.inflate(R.layout.fragment_seller_pending, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

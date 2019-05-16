@@ -1,17 +1,22 @@
 package com.tantuni.zamazon.controllers.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.AdminController;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.models.User;
+import com.tantuni.zamazon.networks.UserCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +72,51 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
+            AlertDialog.Builder builder = new AlertDialog.Builder( view.getContext());
+            final int position = getAdapterPosition();
+            final User user = mUserList.get(position);
+            String buttonString = "";
+            if (user.getActive())
+                buttonString = "Ban";
+            else
+                buttonString = "Active User";
+            builder.setTitle("User Info");
+            builder.setPositiveButton(buttonString, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AdminController.banUser(view.getContext(), new UserCallback<User>() {
+                        @Override
+                        public void onSuccess(User object, String message) {
+                            Toast.makeText(view.getContext(),message,Toast.LENGTH_LONG).show();
+                            if(user.getActive()) {
+                                user.setActive(false);
+                                setData(user,position);
+                            }
 
+
+                            else {
+                                user.setActive(true);
+                                setData(user,position);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            Toast.makeText(view.getContext(),"Failed to ban user",Toast.LENGTH_LONG).show();
+                        }
+                    },user.getId());
+                }
+            });
+            builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.setMessage("User mail:"+user.getEmail()+"\n\n"+"User ID: "+user.getId()+"\n");
+            AlertDialog alert1 = builder.create();
+            alert1.show();
         }
     }
 }

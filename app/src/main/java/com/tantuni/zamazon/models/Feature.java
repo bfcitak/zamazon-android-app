@@ -46,4 +46,14 @@ public class Feature {
     public void setSubCategories(Set<SubCategory> subCategories) {
         this.subCategories = subCategories;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id='" + id + '\'' +
+                ", key='" + key + '\'' +
+                ", options=" + options +
+                ", subCategories=" + subCategories +
+                '}';
+    }
 }

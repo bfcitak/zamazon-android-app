@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment {
         //getting the current user id
         User user = SharedPrefManager.getInstance(getContext()).getUser();
 
-        textViewWelcomeMessage.setText(getString(R.string.welcome_message, user.getFirstName(), user.getLastName(), user.getRoles().iterator().next()));
+        textViewWelcomeMessage.setText(getString(R.string.welcome_message, user.getFirstName(), user.getLastName(), user.getRoles().iterator().next().getRole()));
 
         // Inflate the layout for this fragment
         return view;

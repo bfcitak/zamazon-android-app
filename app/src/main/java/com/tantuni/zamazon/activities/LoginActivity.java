@@ -2,7 +2,6 @@ package com.tantuni.zamazon.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,16 +75,16 @@ public class LoginActivity extends AppCompatActivity {
                     if (user.getRoles().iterator().next().getRole().equals("ADMIN")) {
                         // admin activity acilacak.
                         Log.d("EEEE","LALALAL");
+                        finish();
                         startActivity(new Intent(getApplicationContext(), AdminActivity.class));
-                        finish();;
                     } else if (user.getRoles().iterator().next().getRole().equals("CUSTOMER")) {
                         Log.d("EEEE1","LALALAL");
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else if (user.getRoles().iterator().next().getRole().equals("SELLER")) {
                         Log.d("EEEE2","LALALAL");
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
+                        startActivity(new Intent(getApplicationContext(), SellerActivity.class));
                     }
                 }
 

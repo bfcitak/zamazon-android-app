@@ -18,6 +18,17 @@ public class Product {
 
     }
 
+    public Product(String header, String description, Double price, Boolean active, Category category, SubCategory subCategory, Seller seller, Map<String, String> features) {
+        this.header = header;
+        this.description = description;
+        this.price = price;
+        this.active = active;
+        this.category = category;
+        this.subCategory = subCategory;
+        this.seller = seller;
+        this.features = features;
+    }
+
     public Product(String id, String header, String description, Double price, Boolean active, Category category, SubCategory subCategory, Seller seller, Map<String, String> features) {
         this.id = id;
         this.header = header;

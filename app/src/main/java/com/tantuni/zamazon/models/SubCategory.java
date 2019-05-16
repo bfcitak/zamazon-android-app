@@ -38,6 +38,10 @@ public class SubCategory {
 
     @Override
     public String toString() {
-        return this.getName();
+        return "{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", parentCategory=" + parentCategory +
+                '}';
     }
 }

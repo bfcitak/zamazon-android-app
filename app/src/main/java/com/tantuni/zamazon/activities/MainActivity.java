@@ -1,11 +1,9 @@
 package com.tantuni.zamazon.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,13 +28,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SharedPrefManager.getInstance(getApplicationContext()).getUser()!=null&&SharedPrefManager.getInstance(getApplicationContext()).getUser().getRoles().iterator().next().getRole().equals("ADMIN")){
-            Intent i = new Intent(getApplicationContext(),AdminActivity.class);
-            finish();
-            startActivity(i);
+        if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+            if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRoles().iterator().next().getRole().equals("ADMIN")) {
+                Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                finish();
+                startActivity(intent);
+            } else if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRoles().iterator().next().getRole().equals("SELLER")) {
+                Intent intent = new Intent(getApplicationContext(), SellerActivity.class);
+                finish();
+                startActivity(intent);
+            }
         }
         setContentView(R.layout.activity_main);
         Log.d("MAIN","HADIII");
+
         toolbar = getSupportActionBar();
         loadFragment(new HomeFragment());
 
@@ -70,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
                     toolbar.setTitle("Wish List");
                     if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
-                        fragment = new WishListFragment();
-                        loadFragment(fragment);
+                            fragment = new WishListFragment();
+                            loadFragment(fragment);
                     } else {
                         fragment = new LoginOrSignUpFragment();
                         loadFragment(fragment);

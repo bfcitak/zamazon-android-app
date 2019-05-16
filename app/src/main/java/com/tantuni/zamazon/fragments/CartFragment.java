@@ -1,6 +1,5 @@
 package com.tantuni.zamazon.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,20 +13,15 @@ import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.CustomerController;
-import com.tantuni.zamazon.controllers.ProductController;
-import com.tantuni.zamazon.controllers.UserController;
+
 import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
 import com.tantuni.zamazon.models.Cart;
-import com.tantuni.zamazon.models.Customer;
 import com.tantuni.zamazon.models.Product;
-import com.tantuni.zamazon.models.User;
 import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
-import com.tantuni.zamazon.networks.UserCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,9 +1,6 @@
 package com.tantuni.zamazon.controllers;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
