@@ -1,9 +1,9 @@
 package com.tantuni.zamazon.models;
 
-import java.util.Set;
+import java.util.List;
 
 public class Cart {
-    private Set<Product> products;
+    private List<Product> products;
     private Payment payment;
 
     // Constructors
@@ -11,16 +11,16 @@ public class Cart {
 
     }
 
-    public Cart(Set<Product> products, Payment payment) {
+    public Cart(List<Product> products, Payment payment) {
         this.products = products;
         this.payment = payment;
     }
 
     // Getters and Setters
-    public Set<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
-    public void setProducts(Set<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
     public Payment getPayment() {

@@ -100,20 +100,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public Boolean validateLoginData(String username, String password) {
-
         //validating inputs
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
             editTextUsername.setError("Enter a valid email!");
             editTextUsername.requestFocus();
             return false;
         }
-
         if (TextUtils.isEmpty(password)) {
             editTextPassword.setError("Please enter your password!");
             editTextPassword.requestFocus();
             return false;
         }
-
         if (password.length() < 4) {
             editTextPassword.setError("At least 4 characters!");
             editTextPassword.requestFocus();
@@ -121,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
+
     public void onBackPressed(){
         finish();
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);

@@ -1,103 +1,89 @@
 package com.tantuni.zamazon.models;
 
+import java.util.Map;
+
 public class Product {
     private String id;
     private String header;
     private String description;
-    private String category;
-    private String subCategory;
     private Double price;
-    private User seller;
     private Boolean active;
-    private Integer imageId;
+    private Category category;
+    private SubCategory subCategory;
+    private Seller seller;
+    private Map<String, String> features;
 
     // Constructors
     public Product() {
 
     }
 
-    public Product(String id, String header, String description, String category, String subCategory, Double price, User seller, Boolean active) {
+    public Product(String id, String header, String description, Double price, Boolean active, Category category, SubCategory subCategory, Seller seller, Map<String, String> features) {
         this.id = id;
         this.header = header;
         this.description = description;
+        this.price = price;
+        this.active = active;
         this.category = category;
         this.subCategory = subCategory;
-        this.price = price;
         this.seller = seller;
-        this.active = active;
+        this.features = features;
     }
 
     // Getters and Setters
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getHeader() {
         return header;
     }
-
     public void setHeader(String header) {
         this.header = header;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
-    }
-
     public Double getPrice() {
         return price;
     }
-
     public void setPrice(Double price) {
         this.price = price;
     }
-
-    public User getSeller() {
-        return seller;
-    }
-
-    public void setSeller(User seller) {
-        this.seller = seller;
-    }
-
     public Boolean getActive() {
         return active;
     }
-
     public void setActive(Boolean active) {
-        active = active;
+        this.active = active;
     }
-
-    public Integer getImageId() {
-        return imageId;
+    public Category getCategory() {
+        return category;
     }
-
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    public SubCategory getSubCategory() {
+        return subCategory;
+    }
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
+    }
+    public Seller getSeller() {
+        return seller;
+    }
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+    public Map<String, String> getFeatures() {
+        return features;
+    }
+    public void setFeatures(Map<String, String> features) {
+        this.features = features;
     }
 
     @Override
@@ -106,12 +92,12 @@ public class Product {
                 "id='" + id + '\'' +
                 ", header='" + header + '\'' +
                 ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", subCategory='" + subCategory + '\'' +
                 ", price=" + price +
-                ", seller=" + seller +
                 ", active=" + active +
-                ", imageId=" + imageId +
+                ", category=" + category +
+                ", subCategory=" + subCategory +
+                ", seller=" + seller +
+                ", features=" + features +
                 '}';
     }
 }

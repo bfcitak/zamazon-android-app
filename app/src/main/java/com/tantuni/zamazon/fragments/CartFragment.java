@@ -13,16 +13,20 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.CustomerController;
 import com.tantuni.zamazon.controllers.ProductController;
 import com.tantuni.zamazon.controllers.UserController;
 import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
+import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.Customer;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.models.User;
+import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 import com.tantuni.zamazon.networks.UserCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,7 +46,7 @@ public class CartFragment extends Fragment {
     ProgressBar progressBarCart;
     RecyclerView recyclerViewCart;
     ProductAdapter productAdapter;
-    UserController userController;
+    CustomerController customerController;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,11 +93,11 @@ public class CartFragment extends Fragment {
         recyclerViewCart = (RecyclerView) rootView.findViewById(R.id.recyclerViewCart);
         progressBarCart = (ProgressBar) rootView.findViewById(R.id.progressBarCart);
 
-        userController.getUserById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new UserCallback<User>() {
+        customerController.getUserCartById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new ProductCallback<Cart>() {
             @Override
-            public void onSuccess(User user, String message) {
+            public void onSuccess(Cart cart, String message) {
                 progressBarCart.setVisibility(View.GONE);
-                //setupRecycler(user.getCart().getProducts());
+                setupRecycler(cart.getProducts());
             }
 
             @Override
@@ -133,9 +137,9 @@ public class CartFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void setupRecycler(Set<Product> products) {
+    public void setupRecycler(List<Product> products) {
         if (getActivity() != null) {
-            productAdapter = new ProductAdapter(getContext(), new ArrayList<>(products));
+            productAdapter = new ProductAdapter(getContext(), (ArrayList) products);
             recyclerViewCart.setAdapter(productAdapter);
             recyclerViewCart.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         }

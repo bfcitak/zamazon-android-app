@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.controllers.CustomerController;
 import com.tantuni.zamazon.controllers.ProductController;
 import com.tantuni.zamazon.controllers.adapters.ProductFeatureAdapter;
 import com.tantuni.zamazon.models.Cart;
@@ -29,7 +31,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerViewProductDetails;
     ProgressBar progressBarProductDetails;
     ProductFeatureAdapter productFeatureAdapter;
-    ProductController productController;
+    CustomerController customerController;
     ArrayList<String> featureKeys, featureValues;
     Product currentProduct;
 
@@ -50,13 +52,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         ProductController.getProductById(this, productId, new ProductCallback<Product>() {
             @Override
-            public void onSuccess(Product product) {
+            public void onSuccess(Product product, String message) {
                 progressBarProductDetails.setVisibility(View.GONE);
                 currentProduct = product;
                 featureKeys = new ArrayList<>(Arrays.asList("Price", "Stock", "Rate"));
                 featureValues = new ArrayList<>(Arrays.asList(product.getPrice().toString() + " TL", "17", "3.8"));
                 setTitle(product.getHeader());
-                textViewProductCategory.setText(getString(R.string.full_category, product.getCategory(), product.getSubCategory()));
+                textViewProductCategory.setText(getString(R.string.full_category, product.getCategory().getName(), product.getSubCategory().getName()));
                 textViewProductDescription.setText(product.getDescription());
                 textViewProductHeader.setText(product.getHeader());
                 setupRecycler();
@@ -71,17 +73,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     public void setupRecycler() {
-        productFeatureAdapter = new ProductFeatureAdapter(getApplicationContext(), featureKeys, featureValues );
+        productFeatureAdapter = new ProductFeatureAdapter(getApplicationContext(), featureKeys, featureValues);
         recyclerViewProductDetails.setAdapter(productFeatureAdapter);
         recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         recyclerViewProductDetails.addItemDecoration(new DividerItemDecoration(recyclerViewProductDetails.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     public void addProductToCart(View view) {
-        productController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
+        customerController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
             @Override
-            public void onSuccess(Cart cart) {
-                Toast.makeText(getApplicationContext(), "Ürün sepetinize eklendi!", Toast.LENGTH_LONG).show();
+            public void onSuccess(Cart cart, String message) {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
 
             @Override

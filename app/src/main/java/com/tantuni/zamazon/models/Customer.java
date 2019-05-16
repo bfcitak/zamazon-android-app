@@ -9,8 +9,8 @@ public class Customer extends User {
 
     }
 
-    public Customer(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles, Cart cart) {
-        super(id, email, firstName, lastName, active, roles);
+    public Customer(String id, String email, String password, String firstName, String lastName, Boolean active, Set<Role> roles, Cart cart) {
+        super(id, email, password, firstName, lastName, active, roles);
         this.cart = cart;
     }
 

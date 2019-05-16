@@ -144,7 +144,7 @@ public class AdminHomeFragment extends Fragment {
 
     public void setupRecycler() {
         if (getActivity() != null) {
-            userAdapter = new UserAdapter(getContext(), AdminController.userList);
+            userAdapter = new UserAdapter(getContext(), AdminController.users);
             recyclerViewUsers.setAdapter(userAdapter);
             recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         }

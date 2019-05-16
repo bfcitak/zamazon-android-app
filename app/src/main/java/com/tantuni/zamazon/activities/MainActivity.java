@@ -69,15 +69,25 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_wishlist:
 
                     toolbar.setTitle("Wish List");
-                    fragment = new WishListFragment();
-                    loadFragment(fragment);
+                    if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+                        fragment = new WishListFragment();
+                        loadFragment(fragment);
+                    } else {
+                        fragment = new LoginOrSignUpFragment();
+                        loadFragment(fragment);
+                    }
                     return true;
 
                 case R.id.navigation_cart:
 
                     toolbar.setTitle("Shopping Cart");
-                    fragment = new CartFragment();
-                    loadFragment(fragment);
+                    if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+                        fragment = new CartFragment();
+                        loadFragment(fragment);
+                    } else {
+                        fragment = new LoginOrSignUpFragment();
+                        loadFragment(fragment);
+                    }
                     return true;
 
                 case R.id.navigation_profile:

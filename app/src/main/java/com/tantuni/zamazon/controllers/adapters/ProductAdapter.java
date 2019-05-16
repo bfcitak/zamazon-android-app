@@ -64,7 +64,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             this.productDescription.setText(selectedProduct.getDescription());
             // this.productImage.setImageResource(selectedProduct.getImageId());
             this.productPrice.setText(selectedProduct.getPrice().intValue() + " TL");
-            this.productCategory.setText(selectedProduct.getCategory() + "/" + selectedProduct.getSubCategory());
+            this.productCategory.setText(selectedProduct.getCategory().getName() + "/" + selectedProduct.getSubCategory().getName());
         }
 
 

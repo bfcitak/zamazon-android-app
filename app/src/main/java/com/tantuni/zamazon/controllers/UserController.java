@@ -40,9 +40,8 @@ public class UserController {
                     public void onResponse(JSONObject response) {
                         try {
                             //if no error in response
-                            if (!false) { //response.getBoolean("error")
+                            if (!response.getBoolean("error")) {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-
                                 //getting the user from the response
                                 JSONObject userJson = response.getJSONObject("user");
                                 JSONArray rolesJson = userJson.getJSONArray("roles");
@@ -54,23 +53,23 @@ public class UserController {
                                     Customer user = new Gson().fromJson(userJson.toString(), new TypeToken<Customer>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user, "MESSAGE");
+                                    userCallback.onSuccess(user, response.getString("message"));
                                 } else if (role.getRole().equals("SELLER")) {
                                     Seller user = new Gson().fromJson(userJson.toString(), new TypeToken<Seller>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user, "MESSAGE");
+                                    userCallback.onSuccess(user, response.getString("message"));
                                 } else if (role.getRole().equals("ADMIN")) {
                                     Admin user = new Gson().fromJson(userJson.toString(), new TypeToken<Admin>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
-                                    userCallback.onSuccess(user, "MESSAGE");
+                                    userCallback.onSuccess(user, response.getString("message"));
                                 } else {
                                     Toast.makeText(context, "Authorization Error!", Toast.LENGTH_SHORT).show();
                                 }
 
                             } else {
-                                Toast.makeText(context, "Invalid email or password!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -96,23 +95,19 @@ public class UserController {
     }
 
     public static void signUp(final Context context, final Map<String, String> signUpData, final UserCallback<User> userCallback) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_REGISTER, new JSONObject(signUpData),
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_REGISTER_CUSTOMER, new JSONObject(signUpData),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
                             //if no error in response
-                            if (!false) {  //response.getBoolean("error")
+                            if (!response.getBoolean("error")) {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-
                                 //getting the user from the response
                                 JSONObject userJson = response.getJSONObject("user");
-
                                 //creating a new user object
                                 User user = new Gson().fromJson(userJson.toString(), new TypeToken<User>(){}.getType());
-
-                                userCallback.onSuccess(user, "MESSAGE");
+                                userCallback.onSuccess(user, response.getString("message"));
                             } else {
                                 Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                             }

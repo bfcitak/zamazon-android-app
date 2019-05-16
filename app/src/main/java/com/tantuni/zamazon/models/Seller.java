@@ -9,8 +9,8 @@ public class Seller extends User {
 
     }
 
-    public Seller(String id, String email, String firstName, String lastName, Boolean active, Set<Role> roles) {
-        super(id, email, firstName, lastName, active, roles);
+    public Seller(String id, String email, String password, String firstName, String lastName, Boolean active, Set<Role> roles) {
+        super(id, email, password, firstName, lastName, active, roles);
     }
 
     @Override

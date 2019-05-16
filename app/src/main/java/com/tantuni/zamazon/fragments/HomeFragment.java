@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
 
         productController.getAllProducts(getContext(), new ProductCallback<ArrayList<Product>>() {
             @Override
-            public void onSuccess(ArrayList<Product> products) {
+            public void onSuccess(ArrayList<Product> products, String message) {
                 progressBarHome.setVisibility(View.GONE);
                 setupRecycler();
             }
