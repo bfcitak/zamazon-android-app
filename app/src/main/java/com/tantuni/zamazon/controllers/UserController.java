@@ -1,6 +1,7 @@
 package com.tantuni.zamazon.controllers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -50,6 +51,7 @@ public class UserController {
                                     Customer user = new Gson().fromJson(userJson.toString(), new TypeToken<Customer>(){}.getType());
                                     //storing the user in shared preferences
                                     SharedPrefManager.getInstance(context).userLogin(user, token);
+                                    Log.d("LOGIN", user.toString());
                                     if (user.getActive())
                                         userCallback.onSuccess(user, response.getString("message"));
                                     else

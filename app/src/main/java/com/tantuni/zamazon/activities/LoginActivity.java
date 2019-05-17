@@ -93,8 +93,11 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onError(Exception exception) {
                     Log.d("NEDEN","NEDEN");
-                    buildDialog();
-                    Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+                    if (exception.getMessage() != null && exception.getMessage().equals("BAN"))
+                        buildDialog();
+                    else
+                        Toast.makeText(getApplicationContext(), "Invalid email or password!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
                 }
             });
         }
