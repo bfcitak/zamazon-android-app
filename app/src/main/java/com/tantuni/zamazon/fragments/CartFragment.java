@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.CustomerController;
 
+import com.tantuni.zamazon.controllers.adapters.CartProductAdapter;
 import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
 import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.Product;
@@ -37,9 +39,10 @@ public class CartFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    TextView textViewCartTotalPayment, textViewCartTotalPrice, textViewCartTotalTax;
     ProgressBar progressBarCart;
     RecyclerView recyclerViewCart;
-    ProductAdapter productAdapter;
+    CartProductAdapter cartProductAdapter;
     CustomerController customerController;
 
     // TODO: Rename and change types of parameters
@@ -86,12 +89,19 @@ public class CartFragment extends Fragment {
 
         recyclerViewCart = (RecyclerView) rootView.findViewById(R.id.recyclerViewCart);
         progressBarCart = (ProgressBar) rootView.findViewById(R.id.progressBarCart);
+        textViewCartTotalPrice = (TextView) rootView.findViewById(R.id.textViewCartTotalPrice);
+        textViewCartTotalTax = (TextView) rootView.findViewById(R.id.textViewCartTotalTax);
+        textViewCartTotalPayment = (TextView) rootView.findViewById(R.id.textViewCartTotalPayment);
 
         customerController.getUserCartById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new ProductCallback<Cart>() {
             @Override
             public void onSuccess(Cart cart, String message) {
                 progressBarCart.setVisibility(View.GONE);
                 setupRecycler(cart.getProducts());
+                textViewCartTotalPrice.append(cart.getPayment().getTotal().toString() + " TL");
+                textViewCartTotalTax.append(cart.getPayment().getTax().toString() + " TL");
+                Double totalPayment = cart.getPayment().getTotal() + cart.getPayment().getTax();
+                textViewCartTotalPayment.append(totalPayment.toString() + " TL");
             }
 
             @Override
@@ -133,8 +143,8 @@ public class CartFragment extends Fragment {
 
     public void setupRecycler(List<Product> products) {
         if (getActivity() != null) {
-            productAdapter = new ProductAdapter(getContext(), (ArrayList) products);
-            recyclerViewCart.setAdapter(productAdapter);
+            cartProductAdapter = new CartProductAdapter(getContext(), (ArrayList) products);
+            recyclerViewCart.setAdapter(cartProductAdapter);
             recyclerViewCart.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         }
     }
