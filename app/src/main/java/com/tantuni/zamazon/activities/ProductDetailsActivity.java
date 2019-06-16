@@ -17,6 +17,7 @@ import com.tantuni.zamazon.controllers.ProductController;
 import com.tantuni.zamazon.controllers.adapters.ProductFeatureAdapter;
 import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.Product;
+import com.tantuni.zamazon.models.WishList;
 import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 
@@ -82,6 +83,24 @@ public class ProductDetailsActivity extends AppCompatActivity {
             customerController.addProductToCart(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<Cart>() {
                 @Override
                 public void onSuccess(Cart cart, String message) {
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(Exception exception) {
+                    Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), "You must be logged in!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void addProductToWishList(View view) {
+        if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
+            Log.d("PRODUCT DETAILS","CLİCK");
+            customerController.addProductToWishList(getApplicationContext(), SharedPrefManager.getInstance(getApplicationContext()).getUser().getId(), currentProduct.getId(), new ProductCallback<WishList>() {
+                @Override
+                public void onSuccess(WishList wishList, String message) {
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 }
 

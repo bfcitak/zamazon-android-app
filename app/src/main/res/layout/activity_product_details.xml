@@ -102,7 +102,8 @@
                 android:layout_weight="1"
                 android:contentDescription="Add to wish list"
                 android:src="@drawable/ic_favorite_border_black_24dp"
-                android:theme="@style/AppTheme.Button" />
+                android:theme="@style/AppTheme.Button" 
+                android:onClick="addProductToWishList"/>
 
             <ImageButton
                 android:id="@+id/buttonAddToShoppingCart"

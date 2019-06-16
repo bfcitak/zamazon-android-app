@@ -16,7 +16,6 @@ import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.CustomerController;
 
 import com.tantuni.zamazon.controllers.adapters.CartProductAdapter;
-import com.tantuni.zamazon.controllers.adapters.ProductAdapter;
 import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.networks.ProductCallback;
