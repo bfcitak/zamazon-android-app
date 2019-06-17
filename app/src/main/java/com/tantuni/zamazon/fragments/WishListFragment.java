@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.CustomerController;
 
 import com.tantuni.zamazon.controllers.adapters.WishListProductAdapter;
+import com.tantuni.zamazon.models.CreditCard;
 import com.tantuni.zamazon.models.Product;
 import com.tantuni.zamazon.models.WishList;
 import com.tantuni.zamazon.networks.ProductCallback;

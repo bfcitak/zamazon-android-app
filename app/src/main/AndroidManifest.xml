@@ -11,6 +11,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.AddAddressActivity"
+            android:label="@string/title_add_address"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddCreditCardActivity"
+            android:label="@string/title_add_credit_card"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddressesActivity"
+            android:label="@string/title_addresses"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.CreditCardsActivity"
+            android:label="@string/title_credit_cards"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tantuni.zamazon.activities.MainActivity" />
+        </activity>
         <activity android:name=".activities.SellerActivity" />
         <activity android:name=".activities.AdminActivity" />
         <activity android:name=".activities.MainActivity">

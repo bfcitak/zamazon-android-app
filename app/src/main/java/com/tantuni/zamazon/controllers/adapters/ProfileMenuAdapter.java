@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.activities.AddressesActivity;
 import com.tantuni.zamazon.activities.ChangePasswordActivity;
+import com.tantuni.zamazon.activities.CreditCardsActivity;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 
 import java.util.ArrayList;
@@ -67,8 +69,12 @@ public class ProfileMenuAdapter extends RecyclerView.Adapter<ProfileMenuAdapter.
                 case 1:
                     break;
                 case 2:
+                    Intent addressActivity = new Intent(view.getContext(), AddressesActivity.class);
+                    view.getContext().startActivity(addressActivity);
                     break;
                 case 3:
+                    Intent creditCardsActivity = new Intent(view.getContext(), CreditCardsActivity.class);
+                    view.getContext().startActivity(creditCardsActivity);
                     break;
                 case 4:
                     SharedPrefManager.getInstance(view.getContext()).logout();

@@ -95,6 +95,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "You must be logged in!", Toast.LENGTH_SHORT).show();
         }
     }
+
     public void addProductToWishList(View view) {
         if (SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn()) {
             Log.d("PRODUCT DETAILS","CLİCK");
