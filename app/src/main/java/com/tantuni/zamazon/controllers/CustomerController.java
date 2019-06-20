@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tantuni.zamazon.models.Address;
 import com.tantuni.zamazon.models.Cart;
 import com.tantuni.zamazon.models.CreditCard;
+import com.tantuni.zamazon.models.Order;
 import com.tantuni.zamazon.models.WishList;
 import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
@@ -453,6 +454,41 @@ public class CustomerController {
             }
         };
         VolleySingleton.getInstance(context).addToRequestQueue(removeUserAddressRequest);
+    }
+
+    public static void addOrder(final Context context, String userId, Order order, final ProductCallback<ArrayList<Order>> productCallback) {
+        JsonObjectRequest addOrderRequest = new JsonObjectRequest(Request.Method.POST, URL.URL_CUSTOMERS + "/" + userId + "/orders", null , // BURDAN DEVAM
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (!response.getBoolean("error")) {
+                                JSONArray ordersJson = response.getJSONArray("orders");
+                                ArrayList<Order> orders = new Gson().fromJson(ordersJson.toString(), new TypeToken<ArrayList<Order>>(){}.getType());
+                                productCallback.onSuccess(orders, response.getString("message"));
+                            } else {
+                                Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        productCallback.onError(error);
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + SharedPrefManager.getInstance(context).getToken());
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(addOrderRequest);
     }
 
 }

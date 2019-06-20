@@ -22,36 +22,6 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/textViewCartTotalPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Total Price: "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <TextView
-                android:id="@+id/textViewCartTotalTax"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Total Tax: "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            <TextView
-                android:id="@+id/textViewCartTotalPayment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Total Payment: "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorAccent"/>
-
             <Button
                 android:id="@+id/buttonCheckout"
                 style="@style/Widget.AppCompat.Button.Colored"

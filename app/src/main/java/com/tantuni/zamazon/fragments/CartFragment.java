@@ -1,5 +1,6 @@
 package com.tantuni.zamazon.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
+import com.tantuni.zamazon.activities.CheckoutActivity;
 import com.tantuni.zamazon.controllers.CustomerController;
 
 import com.tantuni.zamazon.controllers.adapters.CartProductAdapter;
@@ -38,7 +41,6 @@ public class CartFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView textViewCartTotalPayment, textViewCartTotalPrice, textViewCartTotalTax;
     ProgressBar progressBarCart;
     RecyclerView recyclerViewCart;
     CartProductAdapter cartProductAdapter;
@@ -88,25 +90,27 @@ public class CartFragment extends Fragment {
 
         recyclerViewCart = (RecyclerView) rootView.findViewById(R.id.recyclerViewCart);
         progressBarCart = (ProgressBar) rootView.findViewById(R.id.progressBarCart);
-        textViewCartTotalPrice = (TextView) rootView.findViewById(R.id.textViewCartTotalPrice);
-        textViewCartTotalTax = (TextView) rootView.findViewById(R.id.textViewCartTotalTax);
-        textViewCartTotalPayment = (TextView) rootView.findViewById(R.id.textViewCartTotalPayment);
 
         customerController.getUserCartById(getContext(), SharedPrefManager.getInstance(getContext()).getUser().getId(), new ProductCallback<Cart>() {
             @Override
             public void onSuccess(Cart cart, String message) {
                 progressBarCart.setVisibility(View.GONE);
                 setupRecycler(cart.getProducts());
-                textViewCartTotalPrice.append(cart.getPayment().getTotal().toString() + " TL");
-                textViewCartTotalTax.append(cart.getPayment().getTax().toString() + " TL");
-                Double totalPayment = cart.getPayment().getTotal() + cart.getPayment().getTax();
-                textViewCartTotalPayment.append(totalPayment.toString() + " TL");
             }
 
             @Override
             public void onError(Exception exception) {
                 progressBarCart.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button buttonCheckout = (Button) rootView.findViewById(R.id.buttonCheckout);
+        buttonCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+                startActivity(intent);
             }
         });
         return rootView;

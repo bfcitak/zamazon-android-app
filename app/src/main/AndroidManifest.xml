@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.CheckoutActivity"></activity>
         <activity
             android:name=".activities.AddAddressActivity"
             android:label="@string/title_add_address"
