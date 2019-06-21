@@ -1,20 +1,18 @@
 package com.tantuni.zamazon.models;
 
-import java.util.Date;
-
 public class CreditCard {
     private String id;
     private String cardNumber;
     private String nameOnCard;
     private String cvc;
-    private Date expiryDate;
+    private String expiryDate;
 
     // Constructors
     public CreditCard() {
 
     }
 
-    public CreditCard(String cardNumber, String nameOnCard, String cvc, Date expiryDate) {
+    public CreditCard(String cardNumber, String nameOnCard, String cvc, String expiryDate) {
         this.cardNumber = cardNumber;
         this.nameOnCard = nameOnCard;
         this.cvc = cvc;
@@ -46,10 +44,10 @@ public class CreditCard {
     public void setCvc(String cvc) {
         this.cvc = cvc;
     }
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 
@@ -60,7 +58,7 @@ public class CreditCard {
                 ", cardNumber='" + cardNumber + '\'' +
                 ", nameOnCard='" + nameOnCard + '\'' +
                 ", cvc='" + cvc + '\'' +
-                ", expiryDate=" + expiryDate +
+                ", expiryDate='" + expiryDate + '\'' +
                 '}';
     }
 }

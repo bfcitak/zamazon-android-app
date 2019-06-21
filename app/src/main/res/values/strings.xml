@@ -16,6 +16,7 @@
     <string name="title_add_product">Add Product</string>
     <string name="title_pending">Pending</string>
     <string name="title_statistics">Statistics</string>
+    <string name="title_checkout">Checkout</string>
 
     <string name="full_category">%1$s / %2$s</string>
     <string name="welcome_message">Welcome %1$s %2$s! (%3$s)</string>

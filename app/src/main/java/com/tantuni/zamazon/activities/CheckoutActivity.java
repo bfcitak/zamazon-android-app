@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.tantuni.zamazon.R;
 import com.tantuni.zamazon.controllers.CustomerController;
+import com.tantuni.zamazon.controllers.OrderController;
 import com.tantuni.zamazon.controllers.adapters.CartProductAdapter;
 import com.tantuni.zamazon.controllers.adapters.CheckoutProductAdapter;
 import com.tantuni.zamazon.models.Address;
@@ -27,8 +28,15 @@ import com.tantuni.zamazon.models.User;
 import com.tantuni.zamazon.networks.ProductCallback;
 import com.tantuni.zamazon.networks.SharedPrefManager;
 
+import org.json.JSONException;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -37,6 +45,7 @@ public class CheckoutActivity extends AppCompatActivity implements AdapterView.O
     ProgressBar progressBarCheckout;
     RecyclerView recyclerViewCheckoutProducts;
     CheckoutProductAdapter checkoutProductAdapter;
+    OrderController orderController;
     CustomerController customerController;
     Spinner spinnerCreditCards, spinnerAddresses;
     ArrayList<CreditCard> userCreditCards;
@@ -58,6 +67,7 @@ public class CheckoutActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public void onSuccess(ArrayList<CreditCard> creditCards, String message) {
                 userCreditCards = creditCards;
+                System.out.println(creditCards);
                 ArrayList<String> creditCardItems = new ArrayList<>();
                 for (CreditCard creditCard : creditCards) {
                     creditCardItems.add(creditCard.getNameOnCard() + " - " + creditCard.getCardNumber().substring(0, 4) + " **** **** " + creditCard.getCardNumber().substring(12, 16));
@@ -126,23 +136,28 @@ public class CheckoutActivity extends AppCompatActivity implements AdapterView.O
         recyclerViewCheckoutProducts.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
     }
 
-    public void confirmPurchase(View view) {
+    public void confirmPurchase(View view) throws JSONException {
         String customerId = SharedPrefManager.getInstance(getApplicationContext()).getUser().getId();
-        Cart cart = userCart;
         CreditCard creditCard = userCreditCards.get(spinnerCreditCards.getSelectedItemPosition());
         Address address = userAddresses.get(spinnerAddresses.getSelectedItemPosition());
-        Date date = new Date();
-        Order order = new Order(customerId, cart, creditCard, address, date);
+        Order order = new Order(customerId, userCart, creditCard, address);
         Log.d("order", order.toString());
+        orderController.addOrder(getApplicationContext(), order, new ProductCallback<ArrayList<Order>>() {
+            @Override
+            public void onSuccess(ArrayList<Order> orders, String message) {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.spinnerCreditCards) {
-            Toast.makeText(getApplicationContext(), "credit card" , Toast.LENGTH_SHORT).show();
-        } else if(parent.getId() == R.id.spinnerAddresses) {
-            Toast.makeText(getApplicationContext(), "address" , Toast.LENGTH_LONG).show();
-        }
+
     }
 
     @Override

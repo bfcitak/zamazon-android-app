@@ -96,9 +96,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
             String secretCartNumber = selectedCreditCard.getCardNumber().substring(0, 4) + " **** **** " + selectedCreditCard.getCardNumber().substring(12, 16);
             this.textViewCreditCardNumber.setText(secretCartNumber);
             this.textViewCreditCardNameOnCard.setText(selectedCreditCard.getNameOnCard());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(selectedCreditCard.getExpiryDate());
-            this.textViewCreditCardExpiryDate.setText(context.getString(R.string.expiry_date, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR)));
+            this.textViewCreditCardExpiryDate.setText(selectedCreditCard.getExpiryDate());
         }
 
 

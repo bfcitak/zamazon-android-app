@@ -1,35 +1,30 @@
 package com.tantuni.zamazon.models;
 
-import java.util.Date;
-
 public class Order {
     String id;
     String customerId;
     Cart cart;
     CreditCard creditCard;
     Address address;
-    Date dateOfPurchase;
 
     // Constructors
     public Order() {
 
     }
 
-    public Order(String customerId, Cart cart, CreditCard creditCard, Address address, Date dateOfPurchase) {
+    public Order(String customerId, Cart cart, CreditCard creditCard, Address address) {
         this.customerId = customerId;
         this.cart = cart;
         this.creditCard = creditCard;
         this.address = address;
-        this.dateOfPurchase = dateOfPurchase;
     }
 
-    public Order(String id, String customerId, Cart cart, CreditCard creditCard, Address address, Date dateOfPurchase) {
+    public Order(String id, String customerId, Cart cart, CreditCard creditCard, Address address) {
         this.id = id;
         this.customerId = customerId;
         this.cart = cart;
         this.creditCard = creditCard;
         this.address = address;
-        this.dateOfPurchase = dateOfPurchase;
     }
 
     // Getters and Setters
@@ -63,12 +58,6 @@ public class Order {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-    public Date getDateOfPurchase() {
-        return dateOfPurchase;
-    }
-    public void setDateOfPurchase(Date dateOfPurchase) {
-        this.dateOfPurchase = dateOfPurchase;
-    }
 
     @Override
     public String toString() {
@@ -78,7 +67,6 @@ public class Order {
                 ", cart=" + cart +
                 ", creditCard=" + creditCard +
                 ", address=" + address +
-                ", dateOfPurchase=" + dateOfPurchase +
                 '}';
     }
 }
