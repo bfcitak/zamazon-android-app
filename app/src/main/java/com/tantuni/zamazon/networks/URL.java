@@ -1,8 +1,8 @@
 package com.tantuni.zamazon.networks;
 
 public class URL {
-    // private static final String ROOT_URL = "https://rest-api-zamazon.herokuapp.com/api";
-    private static final String ROOT_URL = "http://192.168.1.21:8080/api";
+    private static final String ROOT_URL = "https://rest-api-zamazon.herokuapp.com/api";
+    //private static final String ROOT_URL = "http://192.168.1.21:8080/api";
 
     public static final String URL_REGISTER_CUSTOMER = ROOT_URL + "/auth/register/customer";
     public static final String URL_REGISTER_SELLER = ROOT_URL + "/auth/register/seller";
